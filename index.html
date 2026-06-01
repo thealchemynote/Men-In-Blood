@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>MEN IN BLOOD v34 Fixed Front Controls</title>
+<title>MEN IN BLOOD v35 Active Agent Fixed</title>
 <style>
 :root{
   --bg:#060207;--panel:rgba(18,8,14,.9);--line:rgba(255,70,100,.25);
@@ -410,6 +410,39 @@ main.panel{
   }
 }
 
+
+/* v35: only active blood-cell panel is fixed */
+@media(max-width:900px){
+  .controls{
+    position:static !important;
+    left:auto !important;
+    right:auto !important;
+    bottom:auto !important;
+    z-index:auto !important;
+    background:transparent !important;
+    box-shadow:none !important;
+    border:0 !important;
+    padding:0 !important;
+  }
+
+  .agent.active{
+    position:fixed !important;
+    left:8px;
+    right:8px;
+    bottom:8px;
+    z-index:9999 !important;
+    max-height:190px;
+    overflow:auto;
+    background:rgba(18,8,14,.98) !important;
+    border:1px solid rgba(255,49,90,.35);
+    box-shadow:0 0 25px rgba(255,49,90,.25);
+  }
+
+  .side{
+    padding-bottom:220px !important;
+  }
+}
+
 </style>
 </head>
 <body>
@@ -418,7 +451,7 @@ main.panel{
 <div class="diffs"><div class="diff sel" data-d="easy"><b>Easy</b><small>潜伏30%・体力多め</small></div><div class="diff" data-d="normal"><b>Normal</b><small>潜伏1体・標準</small></div><div class="diff" data-d="hard"><b>Hard</b><small>潜伏2体・感染強め</small></div></div>
 <button id="start">START</button></div></section>
 <section id="game" class="screen">
-<div class="top"><div class="titleText">MEN <span>IN</span> BLOOD v34</div><button class="secondary" onclick="location.reload()">TITLE</button></div>
+<div class="top"><div class="titleText">MEN <span>IN</span> BLOOD v35</div><button class="secondary" onclick="location.reload()">TITLE</button></div>
 <main class="panel"><div class="stats"><div class="stat"><label>BODY HP</label><b id="hp">10</b><div class="bar"><div class="fill" id="hpfill"></div></div></div><div class="stat"><label>OXYGEN</label><b><span id="score">0</span>/3</b></div><div class="stat"><label>TURN</label><b id="turn">1</b></div><div class="stat"><label>PHASE</label><b id="phase">EVENT</b></div></div><div class="boardWrap"><div class="board" id="board"></div></div></main>
 <aside class="side">
 <div class="event" id="event"><h2>MISSION</h2><p>酸素を届け、潜伏感染を探索し、傷口と炎症を処理せよ。</p></div>
