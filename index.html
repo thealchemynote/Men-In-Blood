@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>MEN IN BLOOD v35 Active Agent Fixed</title>
+<title>MEN IN BLOOD v40 Branch Fix</title>
 <style>
 :root{
   --bg:#060207;--panel:rgba(18,8,14,.9);--line:rgba(255,70,100,.25);
@@ -443,6 +443,165 @@ main.panel{
   }
 }
 
+
+/* v36 WBC signal panel + anti auto-scroll */
+.wbcSignal{
+  margin-top:7px;
+  padding:7px 9px;
+  border-radius:12px;
+  border:1px solid rgba(85,199,255,.22);
+  background:rgba(85,199,255,.07);
+  color:#bfefff;
+  font-size:12px;
+  line-height:1.35;
+}
+.wbcSignal.none{color:#9d8790;border-color:rgba(255,255,255,.10);background:rgba(255,255,255,.035)}
+.wbcSignal.weak{color:#9fdfff}
+.wbcSignal.strong{color:#ffd36a;text-shadow:0 0 10px rgba(255,211,106,.45)}
+.wbcSignal.found{color:#ff7aa2;text-shadow:0 0 12px rgba(255,49,90,.62);font-weight:1000}
+.moves button{
+  touch-action:manipulation;
+}
+@media(max-width:900px){
+  .agent.active{
+    overscroll-behavior:contain;
+  }
+}
+
+
+/* v37 mission + log combined */
+.event{
+  min-height:170px;
+}
+.missionLog{
+  margin-top:10px;
+  max-height:118px;
+  overflow:auto;
+  background:rgba(0,0,0,.28);
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:12px;
+  padding:6px;
+  font-size:11px;
+  line-height:1.4;
+  color:#f4d8df;
+  overscroll-behavior:contain;
+}
+.missionLog div{
+  border-bottom:1px solid rgba(255,255,255,.07);
+  padding:4px 0;
+}
+.missionLog .eventLine{
+  color:#ffd36a;
+  text-shadow:0 0 8px rgba(255,211,106,.35);
+  font-weight:800;
+}
+@media(max-width:900px){
+  .agent.active{
+    position:static !important;
+    left:auto !important;
+    right:auto !important;
+    bottom:auto !important;
+    z-index:auto !important;
+    max-height:none !important;
+    overflow:visible !important;
+  }
+  .side{
+    padding-bottom:30px !important;
+  }
+}
+
+
+/* v37 final override: no auto fixed panel jump */
+@media(max-width:900px){
+  .agent.active{
+    position:relative !important;
+  }
+}
+
+
+/* v38: restore only active blood-cell panel fixed/front */
+@media(max-width:900px){
+  .agent.active{
+    position:fixed !important;
+    left:8px !important;
+    right:8px !important;
+    bottom:8px !important;
+    z-index:9999 !important;
+    max-height:190px !important;
+    overflow:auto !important;
+    background:rgba(18,8,14,.98) !important;
+    border:1px solid rgba(255,49,90,.38) !important;
+    box-shadow:0 0 28px rgba(255,49,90,.28) !important;
+    overscroll-behavior:contain;
+  }
+  .controls{
+    position:static !important;
+  }
+  .side{
+    padding-bottom:230px !important;
+  }
+}
+
+
+/* v39: separate floating operation panel */
+.floatingControl{
+  display:none;
+}
+@media(max-width:900px){
+  .agent.active{
+    position:relative !important;
+    left:auto !important;
+    right:auto !important;
+    bottom:auto !important;
+    z-index:auto !important;
+    max-height:none !important;
+    overflow:visible !important;
+    box-shadow:none !important;
+  }
+  .floatingControl{
+    position:fixed;
+    left:8px;
+    right:8px;
+    bottom:8px;
+    z-index:10000;
+    display:block;
+    background:rgba(18,8,14,.98);
+    border:1px solid rgba(255,49,90,.42);
+    border-radius:18px;
+    box-shadow:0 0 28px rgba(255,49,90,.32);
+    padding:10px;
+    backdrop-filter:blur(8px);
+  }
+  .floatHead{
+    font-weight:1000;
+    margin-bottom:2px;
+  }
+  .floatSub{
+    color:var(--muted);
+    font-size:11px;
+    margin-bottom:7px;
+  }
+  .floatMoves{
+    display:flex;
+    flex-wrap:wrap;
+    gap:7px;
+  }
+  .floatMoves button{
+    padding:9px 11px;
+    border-radius:11px;
+    font-size:12px;
+  }
+  .side{
+    padding-bottom:190px !important;
+  }
+}
+
+
+/* v40 branch buttons visibility */
+.floatMoves button, .moves button{
+  min-width:44px;
+}
+
 </style>
 </head>
 <body>
@@ -451,17 +610,24 @@ main.panel{
 <div class="diffs"><div class="diff sel" data-d="easy"><b>Easy</b><small>潜伏30%・体力多め</small></div><div class="diff" data-d="normal"><b>Normal</b><small>潜伏1体・標準</small></div><div class="diff" data-d="hard"><b>Hard</b><small>潜伏2体・感染強め</small></div></div>
 <button id="start">START</button></div></section>
 <section id="game" class="screen">
-<div class="top"><div class="titleText">MEN <span>IN</span> BLOOD v35</div><button class="secondary" onclick="location.reload()">TITLE</button></div>
+<div class="top"><div class="titleText">MEN <span>IN</span> BLOOD v40</div><button class="secondary" onclick="location.reload()">TITLE</button></div>
 <main class="panel"><div class="stats"><div class="stat"><label>BODY HP</label><b id="hp">10</b><div class="bar"><div class="fill" id="hpfill"></div></div></div><div class="stat"><label>OXYGEN</label><b><span id="score">0</span>/3</b></div><div class="stat"><label>TURN</label><b id="turn">1</b></div><div class="stat"><label>PHASE</label><b id="phase">EVENT</b></div></div><div class="boardWrap"><div class="board" id="board"></div></div></main>
 <aside class="side">
-<div class="event" id="event"><h2>MISSION</h2><p>酸素を届け、潜伏感染を探索し、傷口と炎症を処理せよ。</p></div>
+<div class="event" id="event"><h2>MISSION</h2><p>酸素を届け、潜伏感染を探索し、傷口と炎症を処理せよ。</p><div class="missionLog" id="log"></div></div>
 <div class="panel"><div class="controls"><button class="full" id="eventBtn">EVENT</button><button id="diceBtn">DICE</button><button class="secondary" id="endBtn">END TURN</button></div></div>
 <div class="agent" id="rbcCard"><h3>赤血球 <span class="pill" id="rbcO">酸素なし</span></h3><small>血流移動。肺で酸素、脳へ輸送。</small><div class="moves" id="rbcMoves"></div></div>
-<div class="agent" id="wbcCard"><h3>白血球 <span class="pill">遊走</span></h3><small>自由移動。戦闘と探索。</small><div class="moves" id="wbcMoves"></div></div>
+<div class="agent" id="wbcCard"><h3>白血球 <span class="pill">遊走</span></h3><small>自由移動。戦闘と探索。</small><div id="wbcSignal" class="wbcSignal">シグナルなし</div><div class="moves" id="wbcMoves"></div></div>
 <div class="agent" id="pltCard"><h3>血小板</h3><small>止血と炎症処理。</small><div class="moves" id="pltMoves"></div></div>
-<div class="panel"><div id="status"></div><div class="log" id="log"></div></div>
+<div class="panel"><div id="status"></div></div>
 </aside>
 </section>
+
+<div id="floatingControl" class="floatingControl">
+  <div class="floatHead" id="floatTitle">操作</div>
+  <div class="floatSub" id="floatSub">サイコロ後に表示されます</div>
+  <div class="floatMoves" id="floatMoves"></div>
+</div>
+
 <div class="overlay" id="over"><div class="result"><h2 id="resT">BODY STABILIZED</h2><p id="resP"></p><button onclick="location.reload()">TITLE</button></div></div>
 <script>
 const pos={
@@ -555,10 +721,96 @@ function renderMoves(){["rbc","wbc","plt"].forEach(c=>{document.getElementById(c
   else if(a.target)el.appendChild(btn(a.target,()=>flow(S.sel,a.target)));
 }if(S.sel==="plt"&&S.wounds.some(w=>w.place===a.place))el.appendChild(btn("止血",clot));if(S.sel==="plt"&&S.infl.some(f=>f.place===a.place))el.appendChild(btn("炎症",suppress))}el.appendChild(btn("待機",next,"secondary"))}
 function renderBoard(){document.querySelectorAll(".bug,.mark,.timer").forEach(e=>e.remove());place("rbc",S.rbc.place,-12,-12);place("wbc",S.wbc.place,12,12);place("plt",S.plt.place,12,-12);let b=board,cnt={};let off=pl=>{cnt[pl]=(cnt[pl]||0)+1;let n=cnt[pl];return[(n%3-1)*13,Math.floor((n-1)/3)*13]};S.path.forEach(p=>{let [x,y]=off(p.place),e=document.createElement("div");e.className="bug "+cls(p.name);e.textContent=lab(p.name);e.style.left=pos[p.place].x+x+"px";e.style.top=pos[p.place].y+y+"px";b.appendChild(e);if(p.hp){let t=document.createElement("div");t.className="timer";t.textContent=p.dc+"T";t.style.left=pos[p.place].x+x+13+"px";t.style.top=pos[p.place].y+y-14+"px";b.appendChild(t)}});S.wounds.forEach(w=>mark("wound","❌",w.place,-18,-18));S.infl.forEach(f=>mark("mark inflam","炎",f.place,18,-18));if(S.oxy)mark("mark oxy","O₂",S.oxy.place,-18,18)}
-function update(){hp.textContent=S.hp;hpfill.style.width=(100*S.hp/S.max)+"%";score.textContent=S.score;turn.textContent=S.turn;phase.textContent=S.phase.toUpperCase()+(S.phase==="move"?" "+S.moves:"");rbcO.textContent=S.rbc.oxygen?"酸素あり":"酸素なし";eventBtn.disabled=S.phase!=="event";diceBtn.disabled=S.phase!=="roll";endBtn.disabled=S.phase!=="end";let sig=signal(),sh="";if(sig){if(sig.d===0)sh='<div class="signal found">⚠⚠⚠ 発見：探索可能</div>';else if(sig.d===1)sh='<div class="signal strong">⚠⚠ 強いシグナル</div>';else if(sig.d===2)sh='<div class="signal weak">⚠ 微弱なシグナル</div>'}status.innerHTML=[`難易度:${difficulty}`,`病原体:${S.path.length}`,`潜伏:${S.latent.length}`,`傷:${S.wounds.length}`,`炎症:${S.infl.length}`,S.fever?"発熱":null,S.oxy?`O₂:${S.oxy.t}T`:null].filter(Boolean).map(x=>`<span class=pill>${x}</span>`).join("")+S.latent.map(p=>`<span class=latent>${p.name}:${p.t}T</span>`).join("")+S.dorm.map(p=>`<span class=dorm>休眠:${p.t}T</span>`).join("")+sh;renderMoves();renderBoard();check()}
+
+function renderFloating(){
+  const box=document.getElementById("floatingControl");
+  const title=document.getElementById("floatTitle");
+  const sub=document.getElementById("floatSub");
+  const moves=document.getElementById("floatMoves");
+  if(!box||!title||!sub||!moves)return;
+  moves.innerHTML="";
+  const actor=S.sel;
+  title.textContent=name(actor)+" 操作";
+  if(S.phase==="event"){
+    sub.textContent="EVENTを押してください";
+    return;
+  }
+  if(S.phase==="roll"){
+    sub.textContent="DICEを押してください";
+    return;
+  }
+  if(S.phase==="end"){
+    sub.textContent="END TURNを押してください";
+    return;
+  }
+  if(S.phase!=="move"){
+    sub.textContent="待機中";
+    return;
+  }
+  sub.textContent=`残り移動数：${S.moves}`;
+
+  if(actor==="wbc"){
+    graph[S.wbc.place].forEach(d=>moves.appendChild(btn(dir(S.wbc.place,d),()=>wmove(d))));
+    if(S.path.some(p=>p.place===S.wbc.place))moves.appendChild(btn("戦う",fight));
+    if(S.latent.some(p=>p.place===S.wbc.place))moves.appendChild(btn("探索",explore,"secondary"));
+  }else{
+    let a=S[actor];
+    if(!a.target&&a.place==="肝臓"){
+      moves.appendChild(btn("心臓",()=>heart(actor)));
+      moves.appendChild(btn("胃",()=>branchMove(actor,"胃")));
+      moves.appendChild(btn("皮膚",()=>branchMove(actor,"皮膚")));
+    }else{
+      if(!a.target&&a.place!=="心臓")moves.appendChild(btn("心臓",()=>heart(actor)));
+      if(a.place==="心臓"&&!a.target)Object.keys(routes).forEach(o=>moves.appendChild(btn(o,()=>flow(actor,o))));
+      else if(a.target)moves.appendChild(btn(a.target,()=>flow(actor,a.target)));
+    }
+    if(actor==="plt"&&S.wounds.some(w=>w.place===a.place))moves.appendChild(btn("止血",clot));
+    if(actor==="plt"&&S.infl.some(f=>f.place===a.place))moves.appendChild(btn("炎症",suppress));
+  }
+  moves.appendChild(btn("待機",next,"secondary"));
+}
+function update(){hp.textContent=S.hp;hpfill.style.width=(100*S.hp/S.max)+"%";score.textContent=S.score;turn.textContent=S.turn;phase.textContent=S.phase.toUpperCase()+(S.phase==="move"?" "+S.moves:"");rbcO.textContent=S.rbc.oxygen?"酸素あり":"酸素なし";eventBtn.disabled=S.phase!=="event";diceBtn.disabled=S.phase!=="roll";endBtn.disabled=S.phase!=="end";let sig=signal();
+ const sigBox=document.getElementById("wbcSignal");
+ if(sigBox){
+   if(!sig || sig.d>2){
+     sigBox.className="wbcSignal none";
+     sigBox.textContent="シグナルなし";
+   }else if(sig.d===2){
+     sigBox.className="wbcSignal weak";
+     sigBox.textContent="⚠ 微弱シグナル：近くに潜伏反応";
+   }else if(sig.d===1){
+     sigBox.className="wbcSignal strong";
+     sigBox.textContent="⚠⚠ 強いシグナル：かなり近い";
+   }else{
+     sigBox.className="wbcSignal found";
+     sigBox.textContent="⚠⚠⚠ 発見：探索で滅菌可能";
+   }
+ }
+ status.innerHTML=[`難易度:${difficulty}`,`病原体:${S.path.length}`,`潜伏:${S.latent.length}`,`傷:${S.wounds.length}`,`炎症:${S.infl.length}`,S.fever?"発熱":null,S.oxy?`O₂:${S.oxy.t}T`:null].filter(Boolean).map(x=>`<span class=pill>${x}</span>`).join("")+S.latent.map(p=>`<span class=latent>${p.name}:${p.t}T</span>`).join("")+S.dorm.map(p=>`<span class=dorm>休眠:${p.t}T</span>`).join("");renderMoves();renderBoard();renderFloating();check()}
 function check(){if(S.score>=3)finish(true);if(S.hp<=0)finish(false)}
 function finish(w){if(S.over)return;S.over=true;over.classList.add("show");resT.textContent=w?"BODY STABILIZED":"SYSTEM FAILURE";resP.textContent=w?"脳へ酸素が届いた。":"体が限界を迎えた。"}
-function btn(t,f,c=""){let b=document.createElement("button");b.textContent=t;b.onclick=f;if(c)b.className=c;return b}function dir(a,b){let A=pos[a],B=pos[b],dx=B.x-A.x,dy=B.y-A.y;return Math.abs(dx)>Math.abs(dy)?dx>0?"右":"左":dy>0?"下":"上"}function place(id,pl,x,y){let e=document.getElementById(id);e.style.left=pos[pl].x+x+"px";e.style.top=pos[pl].y+y+"px"}function mark(c,t,pl,x,y){let e=document.createElement("div");e.className=c+" mark";e.textContent=t;e.style.left=pos[pl].x+x+"px";e.style.top=pos[pl].y+y+"px";board.appendChild(e)}function cls(n){return n==="ライノ"?"rhino":n==="インフル"?"flu":n==="コロナ"?"corona":n==="結核"?"tb":n==="ブドウ"?"staph":n==="溶連菌"?"strep":n==="ヘルペス"?"herpes":"tet"}function lab(n){return n==="ライノ"?"ラ":n==="インフル"?"イ":n==="コロナ"?"コ":n==="結核"?"結":n==="ブドウ"?"ブ":n==="溶連菌"?"溶":n==="ヘルペス"?"ヘ":"破"}function name(c){return c==="rbc"?"赤血球":c==="wbc"?"白血球":"血小板"}function show(t,p){document.getElementById("event").innerHTML=`<h2>${t}</h2><p>${p}</p>`}function log(t){let d=document.createElement("div");d.textContent=t;document.getElementById("log").prepend(d)}
+function btn(t,f,c=""){let b=document.createElement("button");b.textContent=t;b.onclick=f;if(c)b.className=c;return b}function dir(a,b){let A=pos[a],B=pos[b],dx=B.x-A.x,dy=B.y-A.y;return Math.abs(dx)>Math.abs(dy)?dx>0?"右":"左":dy>0?"下":"上"}function place(id,pl,x,y){let e=document.getElementById(id);e.style.left=pos[pl].x+x+"px";e.style.top=pos[pl].y+y+"px"}function mark(c,t,pl,x,y){let e=document.createElement("div");e.className=c+" mark";e.textContent=t;e.style.left=pos[pl].x+x+"px";e.style.top=pos[pl].y+y+"px";board.appendChild(e)}function cls(n){return n==="ライノ"?"rhino":n==="インフル"?"flu":n==="コロナ"?"corona":n==="結核"?"tb":n==="ブドウ"?"staph":n==="溶連菌"?"strep":n==="ヘルペス"?"herpes":"tet"}function lab(n){return n==="ライノ"?"ラ":n==="インフル"?"イ":n==="コロナ"?"コ":n==="結核"?"結":n==="ブドウ"?"ブ":n==="溶連菌"?"溶":n==="ヘルペス"?"ヘ":"破"}function name(c){return c==="rbc"?"赤血球":c==="wbc"?"白血球":"血小板"}function show(t,p){
+  const logEl=document.getElementById("log");
+  const oldLog=logEl ? logEl.innerHTML : "";
+  document.getElementById("event").innerHTML=`<h2>${t}</h2><p>${p}</p><div class="missionLog" id="log">${oldLog}</div>`;
+  log(`EVENT：${t}`, true);
+}function log(t,isEvent=false){
+  let d=document.createElement("div");
+  if(isEvent)d.className="eventLine";
+  d.textContent=t;
+  const l=document.getElementById("log");
+  if(l)l.prepend(d);
+}
 document.querySelectorAll(".diff").forEach(d=>d.onclick=()=>{document.querySelectorAll(".diff").forEach(x=>x.classList.remove("sel"));d.classList.add("sel");difficulty=d.dataset.d});start.onclick=()=>{title.classList.remove("active");game.classList.add("active");init()};eventBtn.onclick=ev;diceBtn.onclick=roll;endBtn.onclick=endTurn;
+
+// v36: reduce unwanted page jump after tapping operation buttons
+document.addEventListener("click", (e)=>{
+  if(e.target && e.target.tagName === "BUTTON"){
+    setTimeout(()=>{
+      try{ e.target.blur(); }catch(err){}
+    },0);
+  }
+}, {passive:true});
+
 </script>
 </body></html>
